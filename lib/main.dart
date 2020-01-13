@@ -25,23 +25,48 @@ class RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
 
-  void _pushSaved() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SecondRoute(),
-          settings: RouteSettings(arguments: _saved)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
-        leading: IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+        // leading: IconButton(icon: Icon(Icons.menu), onPressed: _pushSaved),
       ),
       body: _buildSuggestions(),
+      drawer: Drawer(
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text("Devon Pirestani"),
+            accountEmail: Text("devon.p2231@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+                  ? Colors.blue
+                  : Colors.white,
+              child: Text(
+                "D",
+                style: TextStyle(fontSize: 40.0),
+              ),
+            ),
+          ),
+          ListTile(
+              title: Text(
+                "View Favorites",
+                style: TextStyle(fontSize: 18.0),
+                ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SecondRoute(),
+                      settings: RouteSettings(arguments: _saved)),
+                );
+              }),
+              Divider(),
+        ],
+      )),
     );
   }
 
