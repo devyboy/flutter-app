@@ -36,7 +36,8 @@ class RandomWordsState extends State<RandomWords> {
             icon: Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                _suggestions.removeRange(0, _suggestions.length);
+                _suggestions.setAll(
+                    0, generateWordPairs().take(_suggestions.length));
               });
             },
           )
@@ -65,7 +66,7 @@ class RandomWordsState extends State<RandomWords> {
               title: Text(
                 "View Favorites",
                 style: TextStyle(fontSize: 18.0),
-                ),
+              ),
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.push(
@@ -75,7 +76,7 @@ class RandomWordsState extends State<RandomWords> {
                       settings: RouteSettings(arguments: _saved)),
                 );
               }),
-              Divider(),
+          Divider(),
         ],
       )),
       floatingActionButton: FloatingActionButton(
@@ -101,7 +102,7 @@ class RandomWordsState extends State<RandomWords> {
 
           final index = i ~/ 2;
           if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
+            _suggestions.addAll(generateWordPairs().take(20));
           }
           return _buildRow(_suggestions[index]);
         });
