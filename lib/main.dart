@@ -24,15 +24,26 @@ class RandomWordsState extends State<RandomWords> {
   final Set<WordPair> _saved = Set<WordPair>();
   final List<WordPair> _suggestions = <WordPair>[];
   final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
+  final ScrollController _scrollController = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                _suggestions.removeRange(0, _suggestions.length);
+              });
+            },
+          )
+        ],
         // leading: IconButton(icon: Icon(Icons.menu), onPressed: _pushSaved),
       ),
-      body: _buildSuggestions(),
+      body: _buildSuggestions(_scrollController),
       drawer: Drawer(
           child: ListView(
         padding: EdgeInsets.zero,
@@ -67,11 +78,23 @@ class RandomWordsState extends State<RandomWords> {
               Divider(),
         ],
       )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _scrollController.animateTo(
+            0.0,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          );
+        },
+        child: Icon(Icons.arrow_upward),
+        backgroundColor: Colors.black,
+      ),
     );
   }
 
-  Widget _buildSuggestions() {
+  Widget _buildSuggestions(controller) {
     return ListView.builder(
+        controller: controller,
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
           if (i.isOdd) return Divider();
