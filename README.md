@@ -1,6 +1,10 @@
-# flutter_app
+# startup-name-generator
 
-A new Flutter project.
+A simple cross-platform mobile app that I'm working on with the goal of learning Flutter and Dart. All it does is generate startup names and let you pick your favorite ones.
+
+# Gallery
+![](https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/home.png)
+![](https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/favorites.png)
 
 ## Getting Started
 
