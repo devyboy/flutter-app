@@ -3,8 +3,11 @@
 A simple cross-platform mobile app that I'm working on with the goal of learning Flutter and Dart. All it does is generate startup names and let you pick your favorite ones.
 
 # Gallery
-<img src=https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/home.png height="700" />
-<img src=https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/favorites.png height="700" />
+<div style="display: inline-block">
+  <img src=https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/home.png height="700" />
+  <img src=https://raw.githubusercontent.com/devyboy/flutter-app/master/screens/favorites.png height="700" />
+</div>
+
 
 ## Getting Started
 
