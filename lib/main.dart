@@ -42,41 +42,30 @@ class RandomWordsState extends State<RandomWords> {
             },
           )
         ],
-        // leading: IconButton(icon: Icon(Icons.menu), onPressed: _pushSaved),
       ),
       body: _buildSuggestions(_scrollController),
       drawer: Drawer(
-          child: ListView(
-        padding: EdgeInsets.zero,
+        child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text("Devon Pirestani"),
-            accountEmail: Text("devon.p2231@gmail.com"),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                  ? Colors.blue
-                  : Colors.white,
-              child: Text(
-                "D",
-                style: TextStyle(fontSize: 40.0),
-              ),
+          Container(
+						height: 60.0,
+						child: DrawerHeader(
+            child: Text(
+							"Favorite Names",
+							style: TextStyle(fontSize: 20),
+							textAlign: TextAlign.center,
+						),
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                new BoxShadow(
+                  color: Colors.grey[300],
+                  offset: new Offset(0, 3.0),
+                )
+              ],
             ),
-          ),
-          ListTile(
-              title: Text(
-                "View Favorites",
-                style: TextStyle(fontSize: 18.0),
-              ),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SecondRoute(),
-                      settings: RouteSettings(arguments: _saved)),
-                );
-              }),
-          Divider(),
+          )),
+          _buildFavorites(_scrollController),
         ],
       )),
       floatingActionButton: FloatingActionButton(
@@ -91,6 +80,34 @@ class RandomWordsState extends State<RandomWords> {
         backgroundColor: Colors.black,
       ),
     );
+  }
+
+  Widget _buildFavorites(controller) {
+    return ListView.separated(
+				controller: controller,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(13.0),
+        itemCount: _saved.length,
+				separatorBuilder: (context, index) {
+					return Divider();
+				},
+        itemBuilder: (BuildContext context, int index) {
+          return (
+						ListTile(
+            title: Text(
+							_saved.elementAt(index).asPascalCase,
+							style: TextStyle(fontSize: 16.0)
+						),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                setState(() {
+                  _saved.remove(_saved.elementAt(index));
+                });
+              },
+            ),
+          ));
+        });
   }
 
   Widget _buildSuggestions(controller) {
@@ -132,47 +149,7 @@ class RandomWordsState extends State<RandomWords> {
   }
 }
 
-class SecondRouteState extends State<SecondRoute> {
-  @override
-  Widget build(BuildContext context) {
-    final Set<WordPair> saved = ModalRoute.of(context).settings.arguments;
-    final Iterable<ListTile> tiles = saved.map(
-      (WordPair pair) {
-        return ListTile(
-          title: Text(
-            pair.asPascalCase,
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              setState(() {
-                saved.remove(pair);
-              });
-            },
-          ),
-        );
-      },
-    );
-    final List<Widget> divided = ListTile.divideTiles(
-      context: context,
-      tiles: tiles,
-    ).toList();
-    return Scaffold(
-      // Add 6 lines from here...
-      appBar: AppBar(
-        title: Text('Saved Suggestions'),
-      ),
-      body: ListView(children: divided),
-    );
-  }
-}
-
 class RandomWords extends StatefulWidget {
   @override
   RandomWordsState createState() => RandomWordsState();
-}
-
-class SecondRoute extends StatefulWidget {
-  @override
-  SecondRouteState createState() => SecondRouteState();
 }
